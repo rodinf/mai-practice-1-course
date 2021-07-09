@@ -21,6 +21,8 @@ typedef struct Node
 } 
 Node;
 
+// создание односвязного списка
+
 Node* createList(int _length)
 {
   Node 
@@ -42,6 +44,8 @@ Node* createList(int _length)
   return elFirstPtr;
 }
 
+// заполнение односвязного списка нулями
+
 Node* initListByZero(Node *elFirstPtr) 
 {
   Node *elCurrPtr = elFirstPtr;
@@ -53,6 +57,8 @@ Node* initListByZero(Node *elFirstPtr)
   }
   
 }
+
+// вывод односвязного списка в консоль
 
 void showList(Node *elFirstPtr)
 {
@@ -66,6 +72,8 @@ void showList(Node *elFirstPtr)
 
   printf("\n");
 }
+
+// добавление элемента в односвязный список на заданную позицию
 
 int pushIntToList(Node *elFirstPtr, int pushPosition, int pushValue)
 {
@@ -102,6 +110,22 @@ int pushIntToList(Node *elFirstPtr, int pushPosition, int pushValue)
   return 0;  
 }
 
+// удаление односвязного списка из памяти
+
+void freeList(Node *elFirstPtr)
+{
+  Node *elTempPtr = elFirstPtr->nextPtr;
+
+  while (elFirstPtr != NULL)
+  {
+    elTempPtr = elFirstPtr;
+    elFirstPtr = elFirstPtr->nextPtr;
+    free(elTempPtr);
+  }	
+}
+
+// вычисление среднего геометрического элементов списка
+
 double geometricMean(Node *elFirstPtr) {
   Node *elCurrPtr = elFirstPtr;
   double 
@@ -119,6 +143,8 @@ double geometricMean(Node *elFirstPtr) {
 
   return _geometricMean;
 }
+
+// вычисление среднего арифметического элементов списка
 
 double arithmeticMean(Node *elFirstPtr) 
 {
@@ -139,19 +165,7 @@ double arithmeticMean(Node *elFirstPtr)
   return _arithmeticMean;
 } 
 
-void freeList(Node *elFirstPtr)
-{
-  Node *elTempPtr = elFirstPtr->nextPtr;
-
-  while (elFirstPtr != NULL)
-  {
-    elTempPtr = elFirstPtr;
-    elFirstPtr = elFirstPtr->nextPtr;
-    free(elTempPtr);
-  }	
-}
-
-/* Tests */
+// тест функции создания односвязного списка
 
 int testCreateList(Node *elFirstPtr, int _length) 
 {
@@ -171,6 +185,8 @@ int testCreateList(Node *elFirstPtr, int _length)
 
 }
 
+// тест функции заполнения односвязного списка нулями
+
 int testInitListByZero(Node *elFirstPtr) 
 {
   Node *elCurrPtr = elFirstPtr;
@@ -185,6 +201,8 @@ int testInitListByZero(Node *elFirstPtr)
   
   return 0;
 }
+
+// тест функции добавления элемента в односвязный спискок на заданную позицию
 
 int testPushIntToList(Node *elFirstPtr, int pushPosition, int pushValue) 
 {
@@ -203,36 +221,7 @@ int testPushIntToList(Node *elFirstPtr, int pushPosition, int pushValue)
     return 1;
 }
 
-int testArichmeticMean()
-{
-  Node *testList = createList(10);
-  Node *elCurrPtr = testList;
-
-  int n = 1, sum = 0;
-
-  while (elCurrPtr != NULL)
-  {
-    sum += n;
-    elCurrPtr->value = n;
-    elCurrPtr = elCurrPtr->nextPtr;
-    n++;
-  }
-
-  n--;
-
-  if(n < 10) {
-    freeList(testList);
-    return 1;
-  }
-  else if((double)sum / (double)n == arithmeticMean(testList)) {
-    freeList(testList);
-    return 0;
-  }
-  else {
-    freeList(testList);
-    return 1;
-  }
-}
+// тест функции вычисления среднего геометрического элементов односвязного списка
 
 int testGeometricMean()
 {
@@ -256,6 +245,39 @@ int testGeometricMean()
     return 1;
   }
   else if(pow(mult, (double)1/n) == geometricMean(testList)) {
+    freeList(testList);
+    return 0;
+  }
+  else {
+    freeList(testList);
+    return 1;
+  }
+}
+
+// тест функции вычисления среднего арифметического элементов односвязного списка
+
+int testArichmeticMean()
+{
+  Node *testList = createList(10);
+  Node *elCurrPtr = testList;
+
+  int n = 1, sum = 0;
+
+  while (elCurrPtr != NULL)
+  {
+    sum += n;
+    elCurrPtr->value = n;
+    elCurrPtr = elCurrPtr->nextPtr;
+    n++;
+  }
+
+  n--;
+
+  if(n < 10) {
+    freeList(testList);
+    return 1;
+  }
+  else if((double)sum / (double)n == arithmeticMean(testList)) {
     freeList(testList);
     return 0;
   }
